@@ -8,9 +8,14 @@ def main():
     pygame.init()
     gameClock = pygame.time.Clock()
     dt = 0
+    # set up groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     myPlayer = Player( x =SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
+    
     # primary game loop
     while True:
         '''
@@ -24,12 +29,16 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            myPlayer.update(dt)
+            
         # update the game world
+        for obj in updatable:
+            obj.update(dt)
 
         # draw the game to screen
         screen.fill(BLACK)
-        myPlayer.draw(screen)
+        for obj in drawable:
+            obj.draw(screen)
+        
         pygame.display.flip()
 
         # calc delta time
