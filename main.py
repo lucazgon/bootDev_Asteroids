@@ -35,21 +35,27 @@ def main():
             - update the game world
             - draw the game to the screen
         '''
-
+        #
         # check for player inputs
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            
+
+        #    
         # update the game world
         for obj in updatable:
             obj.update(dt)
             # iterate over all of the objects in your asteroids group. Check if any of them collide with the player.
+        # collision check
         for asteroid in asteroids:
             if asteroid.detect_collision(myPlayer) == True:
                 print("GAME OVER")
                 sys.exit()
-
+            for shot in shots:
+                if asteroid.detect_collision(shot) == True:
+                    asteroid.split()
+                    shot.kill()
+        #
         # draw the game to screen
         screen.fill(BLACK)
         for obj in drawable:
