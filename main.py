@@ -3,6 +3,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from constants import*
+import sys
 
 # game function
 def main():
@@ -40,6 +41,11 @@ def main():
         # update the game world
         for obj in updatable:
             obj.update(dt)
+            # iterate over all of the objects in your asteroids group. Check if any of them collide with the player.
+        for asteroid in asteroids:
+            if asteroid.detect_collision(myPlayer) == True:
+                print("GAME OVER")
+                sys.exit()
 
         # draw the game to screen
         screen.fill(BLACK)
